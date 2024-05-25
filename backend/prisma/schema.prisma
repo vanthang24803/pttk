@@ -1,0 +1,104 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Position {
+  Lecturers // Giảng viên
+  DeputyDean // Phó khoa
+  Dean // Trưởng khoa
+}
+
+enum Degree {
+  Master // Thạc sĩ
+  Doctorate // Tiến sĩ
+  AssociateProfessor // Phó giáo sư
+  Professor // Giáo sư
+}
+
+model User {
+  id       String  @id @default(uuid())
+  email    String  @unique @db.VarChar(255)
+  password String
+  avatar   String?
+
+  firstMidName String  @db.VarChar(50)
+  lastName     String  @db.VarChar(50)
+  phoneNumber  String? @db.VarChar(10)
+
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+}
+
+model Teacher {
+  id           String  @id @default(uuid())
+  code         String? @unique @db.VarChar(10)
+  firstMidName String  @db.VarChar(50)
+  image        String
+  lastName     String  @db.VarChar(50)
+  email        String  @unique @db.VarChar(255)
+  phoneNumber  String? @db.VarChar(10)
+  address      String? @db.VarChar(255)
+
+  dateOfBirth DateTime
+  gender      Boolean
+  position    Position @default(Lecturers)
+  degree      Degree   @default(Master)
+
+  salaryScale   Int    @default(0) // Hệ số lương
+  benefitSalary Int    @default(0) // Phụ cấp
+  baseSalary    BigInt @default(0) // Lương cơ bản
+
+  departments       Department[]        @relation("TeacherDepartments") // Khoa
+  TeacherDepartment TeacherDepartment[]
+  salaries          Salary[]            @relation("TeacherSalaries") // Lương
+
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+}
+
+model Salary {
+  id          String   @id @default(uuid())
+  amount      BigInt   @default(0)
+  workDay     Int      @default(0)
+  offDay      Int      @default(0)
+  benefit     Int      @default(0)
+  paymentDate DateTime
+
+  status Boolean @default(false)
+
+  teacherId String
+  teacher   Teacher @relation("TeacherSalaries", fields: [teacherId], references: [id], onDelete: Cascade)
+}
+
+model Department {
+  id                String              @id @default(uuid())
+  name              String              @unique @db.VarChar(255)
+  createAt          DateTime            @default(now())
+  updateAt          DateTime            @updatedAt
+  teachers          Teacher[]           @relation("TeacherDepartments")
+  TeacherDepartment TeacherDepartment[]
+}
+
+model TeacherDepartment {
+  id           String @id @default(uuid())
+  teacherId    String
+  departmentId String
+
+  teacher    Teacher    @relation(fields: [teacherId], references: [id], onDelete: Cascade)
+  department Department @relation(fields: [departmentId], references: [id], onDelete: Cascade)
+
+  @@unique([teacherId, departmentId])
+  @@index([teacherId])
+  @@index([departmentId])
+}
