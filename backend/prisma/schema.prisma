@@ -55,9 +55,9 @@ model Teacher {
   position    Position @default(Lecturers)
   degree      Degree   @default(Master)
 
-  salaryScale   Int    @default(0) // Hệ số lương
-  benefitSalary Int    @default(0) // Phụ cấp
-  baseSalary    BigInt @default(0) // Lương cơ bản
+  salaryScale   Float @default(0) // Hệ số lương
+  benefitSalary Int   @default(0) // Phụ cấp
+  baseSalary    Int   @default(0) // Lương cơ bản
 
   departments       Department[]        @relation("TeacherDepartments") // Khoa
   TeacherDepartment TeacherDepartment[]
@@ -69,7 +69,7 @@ model Teacher {
 
 model Salary {
   id          String   @id @default(uuid())
-  amount      BigInt   @default(0)
+  amount      Int      @default(0)
   workDay     Int      @default(0)
   offDay      Int      @default(0)
   benefit     Int      @default(0)

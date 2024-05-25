@@ -1,7 +1,14 @@
 import { createBrowserRouter } from "react-router-dom";
 
 import { AuthLayout, DashboardLayout } from "@/layouts";
-import { LoginPage, OverviewPage, RecordPage, RegisterPage, SalaryPage } from "@/pages";
+import {
+  CreateRecordPage,
+  LoginPage,
+  OverviewPage,
+  RecordPage,
+  RegisterPage,
+  SalaryPage,
+} from "@/pages";
 import ProtectedRoute from "./protected-route";
 
 export const router = createBrowserRouter([
@@ -24,6 +31,10 @@ export const router = createBrowserRouter([
       {
         path: "/dashboard/record",
         element: <RecordPage />,
+      },
+      {
+        path: "/dashboard/record/create",
+        element: <CreateRecordPage />,
       },
     ],
   },

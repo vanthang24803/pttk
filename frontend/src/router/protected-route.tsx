@@ -11,7 +11,7 @@ export default function ProtectedRoute({ children }: PropsWithChildren) {
     if (!isLogin) {
       navigate("/login");
     } else {
-      navigate("/dashboard/overview");
+      navigate("/dashboard/record");
     }
   }, [navigate, isLogin]);
 

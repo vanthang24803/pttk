@@ -5,10 +5,26 @@ CREATE TYPE "Position" AS ENUM ('Lecturers', 'DeputyDean', 'Dean');
 CREATE TYPE "Degree" AS ENUM ('Master', 'Doctorate', 'AssociateProfessor', 'Professor');
 
 -- CreateTable
+CREATE TABLE "User" (
+    "id" TEXT NOT NULL,
+    "email" VARCHAR(255) NOT NULL,
+    "password" TEXT NOT NULL,
+    "avatar" TEXT,
+    "firstMidName" VARCHAR(50) NOT NULL,
+    "lastName" VARCHAR(50) NOT NULL,
+    "phoneNumber" VARCHAR(10),
+    "createAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updateAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "User_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "Teacher" (
     "id" TEXT NOT NULL,
     "code" VARCHAR(10),
     "firstMidName" VARCHAR(50) NOT NULL,
+    "image" TEXT NOT NULL,
     "lastName" VARCHAR(50) NOT NULL,
     "email" VARCHAR(255) NOT NULL,
     "phoneNumber" VARCHAR(10),
@@ -17,9 +33,9 @@ CREATE TABLE "Teacher" (
     "gender" BOOLEAN NOT NULL,
     "position" "Position" NOT NULL DEFAULT 'Lecturers',
     "degree" "Degree" NOT NULL DEFAULT 'Master',
-    "salaryScale" INTEGER NOT NULL DEFAULT 0,
+    "salaryScale" DOUBLE PRECISION NOT NULL DEFAULT 0,
     "benefitSalary" INTEGER NOT NULL DEFAULT 0,
-    "baseSalary" BIGINT NOT NULL DEFAULT 0,
+    "baseSalary" INTEGER NOT NULL DEFAULT 0,
     "createAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updateAt" TIMESTAMP(3) NOT NULL,
 
@@ -29,7 +45,7 @@ CREATE TABLE "Teacher" (
 -- CreateTable
 CREATE TABLE "Salary" (
     "id" TEXT NOT NULL,
-    "amount" BIGINT NOT NULL DEFAULT 0,
+    "amount" INTEGER NOT NULL DEFAULT 0,
     "workDay" INTEGER NOT NULL DEFAULT 0,
     "offDay" INTEGER NOT NULL DEFAULT 0,
     "benefit" INTEGER NOT NULL DEFAULT 0,
@@ -64,6 +80,15 @@ CREATE TABLE "_TeacherDepartments" (
     "A" TEXT NOT NULL,
     "B" TEXT NOT NULL
 );
+
+-- CreateIndex
+CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Teacher_code_key" ON "Teacher"("code");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Teacher_email_key" ON "Teacher"("email");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Department_name_key" ON "Department"("name");

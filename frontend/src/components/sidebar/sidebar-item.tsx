@@ -13,7 +13,7 @@ export const SidebarItem = ({ icon: Icon, label, href }: Props) => {
 
   const { pathname } = useLocation();
 
-  const isActive = pathname === href;
+  const isActive = pathname === href || pathname.startsWith(href);
 
   const onClick = () => {
     navigate(href);
