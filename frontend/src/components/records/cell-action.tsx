@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Copy, Edit, MoreHorizontal, Trash } from "lucide-react";
+import { Edit, MoreHorizontal, Trash } from "lucide-react";
 import { toast } from "react-hot-toast";
 
 import { Button } from "@/components/ui/button";
@@ -35,7 +35,7 @@ export const CellAction = ({ data }: CellActionProps) => {
       await _http.delete(`/api/records/${data.id}`);
       toast.dismiss();
       toast.success("Xóa thành công!");
-      window.location.reload(); 
+      window.location.reload();
     } catch (error) {
       toast.dismiss();
       console.log(error);
@@ -45,11 +45,6 @@ export const CellAction = ({ data }: CellActionProps) => {
       setOpen(false);
       setLoading(false);
     }
-  };
-
-  const onCopy = (id: string) => {
-    navigator.clipboard.writeText(id);
-    toast.success("Đã copy mã nhân viên");
   };
 
   return (
@@ -72,9 +67,6 @@ export const CellAction = ({ data }: CellActionProps) => {
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>Chức năng</DropdownMenuLabel>
-          <DropdownMenuItem onClick={() => onCopy(data.id)}>
-            <Copy className="mr-2 h-4 w-4" /> Copy
-          </DropdownMenuItem>
           <DropdownMenuItem
             onClick={() => navigate(`/dashboard/record/${data.id}`)}
           >

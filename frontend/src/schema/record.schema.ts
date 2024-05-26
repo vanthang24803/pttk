@@ -19,11 +19,10 @@ export const recordSchema = z.object({
   gender: z.string(),
   position: z.string().min(1),
   degree: z.string().min(1),
-  salaryScale: z.number().min(1),
-  benefitSalary: z.number().min(0),
-  baseSalary: z.number().min(1),
+  salaryScale: z.string().min(1, { message: "Hãy nhận dữ liệu" }),
+  benefitSalary: z.string().min(0),
+  baseSalary: z.string().min(1, { message: "Hãy nhận dữ liệu" }),
   departmentId: z.string().min(1),
 });
-
 
 export type FormValue = z.infer<typeof recordSchema>;

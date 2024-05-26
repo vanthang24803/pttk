@@ -2,11 +2,11 @@ import { BarChart , BadgeDollarSign , Folder  } from "lucide-react";
 import { SidebarItem } from "./sidebar-item";
 
 const routes = [
-  {
-    label: "Tổng quát",
-    icon: BarChart,
-    href: "/dashboard/overview",
-  },
+  // {
+  //   label: "Tổng quát",
+  //   icon: BarChart,
+  //   href: "/dashboard/overview",
+  // },
   {
     label: "Hồ sơ ",
     icon: Folder,

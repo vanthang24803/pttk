@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { prisma } from "@/lib/prisma";
+import UploadService from "@/utils/upload";
 
 export class RecordController {
   // async getDepartment(req: Request, res: Response) {
@@ -51,8 +52,11 @@ export class RecordController {
       benefitSalary,
       baseSalary,
       departmentId,
-      image,
     } = req.body;
+
+    const image = req.file as Express.Multer.File | undefined;
+
+    const url = await UploadService.uploadSingle(image);
 
     const exitingRecordByEmail = await prisma.teacher.findFirst({
       where: {
@@ -83,25 +87,25 @@ export class RecordController {
       data: {
         firstMidName,
         email,
-        gender,
-        image,
+        gender:  gender === "men" ? true : false,
+        image: url!,
         dateOfBirth,
         lastName,
         address,
-        baseSalary,
-        benefitSalary,
+        baseSalary: Number(baseSalary),
+        benefitSalary: Number(benefitSalary),
         code,
         degree,
         phoneNumber,
         position,
-        salaryScale,
+        salaryScale: Number(salaryScale),
         departments: {
           connect: { id: departmentId },
         },
       },
     });
 
-    return res.status(200).json(newRecord);
+    return res.status(200).json({message : "Create successfully"});
   }
 
   async findAll(req: Request, res: Response) {
@@ -110,6 +114,9 @@ export class RecordController {
         departments: true,
         salaries: true,
       },
+      orderBy: {
+        createAt : 'desc'
+      }
     });
 
     return res.status(200).json(records);
@@ -146,6 +153,7 @@ export class RecordController {
       benefitSalary,
       baseSalary,
     } = req.body;
+    
 
     const updateRecord = await prisma.teacher.update({
       where: {

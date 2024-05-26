@@ -1,4 +1,5 @@
 import { RecordController } from "@/controllers/record";
+import uploads from "@/middlewares/upload";
 import express, { Router } from "express";
 
 const router: Router = express.Router();
@@ -7,7 +8,7 @@ const recordController = new RecordController();
 
 router.get("/department", recordController.getDepartment);
 
-router.post("/", recordController.create);
+router.post("/", uploads.single("image"), recordController.create);
 
 router.get("/", recordController.findAll);
 
