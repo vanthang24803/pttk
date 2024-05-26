@@ -10,6 +10,6 @@ router.use("/auth", authRoutes);
 
 router.use("/records", recordRoutes);
 
-router.use("/salary", salaryRoutes);
+router.use("/salaries", salaryRoutes);
 
 export default router;

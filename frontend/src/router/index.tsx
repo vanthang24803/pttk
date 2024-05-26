@@ -8,6 +8,10 @@ import {
   RecordPage,
   RegisterPage,
   SalaryPage,
+  UpdateRecordPage,
+  ListSalaryPage,
+  CreateSalaryPage,
+  UpdateSalaryPage,
 } from "@/pages";
 import ProtectedRoute from "./protected-route";
 
@@ -29,12 +33,28 @@ export const router = createBrowserRouter([
         element: <SalaryPage />,
       },
       {
+        path: "/dashboard/salary/:id",
+        element: <ListSalaryPage />,
+      },
+      {
+        path: "/dashboard/salary/:id/create",
+        element: <CreateSalaryPage />,
+      },
+      {
+        path: "/dashboard/salary/:id/detail/:salaryId",
+        element: <UpdateSalaryPage />,
+      },
+      {
         path: "/dashboard/record",
         element: <RecordPage />,
       },
       {
         path: "/dashboard/record/create",
         element: <CreateRecordPage />,
+      },
+      {
+        path: "/dashboard/record/:id",
+        element: <UpdateRecordPage />,
       },
     ],
   },

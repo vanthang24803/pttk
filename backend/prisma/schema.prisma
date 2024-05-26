@@ -73,7 +73,9 @@ model Salary {
   workDay     Int      @default(0)
   offDay      Int      @default(0)
   benefit     Int      @default(0)
-  paymentDate DateTime
+  base        Int      @default(0)
+  scale       Float    @default(0)
+  paymentDate DateTime @default(now())
 
   status Boolean @default(false)
 

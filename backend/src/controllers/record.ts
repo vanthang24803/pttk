@@ -87,7 +87,7 @@ export class RecordController {
       data: {
         firstMidName,
         email,
-        gender:  gender === "men" ? true : false,
+        gender: gender === "men" ? true : false,
         image: url!,
         dateOfBirth,
         lastName,
@@ -105,7 +105,7 @@ export class RecordController {
       },
     });
 
-    return res.status(200).json({message : "Create successfully"});
+    return res.status(200).json({ message: "Create successfully" });
   }
 
   async findAll(req: Request, res: Response) {
@@ -115,8 +115,8 @@ export class RecordController {
         salaries: true,
       },
       orderBy: {
-        createAt : 'desc'
-      }
+        createAt: "desc",
+      },
     });
 
     return res.status(200).json(records);
@@ -128,6 +128,10 @@ export class RecordController {
     const exitingRecord = await prisma.teacher.findUnique({
       where: {
         id,
+      },
+      include: {
+        departments: true,
+        salaries: true,
       },
     });
 
@@ -153,7 +157,6 @@ export class RecordController {
       benefitSalary,
       baseSalary,
     } = req.body;
-    
 
     const updateRecord = await prisma.teacher.update({
       where: {
@@ -169,9 +172,9 @@ export class RecordController {
         gender,
         position,
         degree,
-        salaryScale,
-        benefitSalary,
-        baseSalary,
+        salaryScale: Number(salaryScale),
+        benefitSalary: Number(benefitSalary),
+        baseSalary: Number(baseSalary),
       },
     });
 

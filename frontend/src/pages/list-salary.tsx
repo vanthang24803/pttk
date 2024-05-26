@@ -1,22 +1,29 @@
 import { Heading } from "@/components/heading";
 import { Loading } from "@/components/loading";
 import { Separator } from "@/components/ui/separator";
-import { Record } from "@/types";
+import { Record, Salary } from "@/types";
 import { useEffect, useState } from "react";
 
-import { columns } from "@/components/salary/columns";
 import { DataTable } from "@/components/records/data-table";
 import _http from "@/utils/http";
+import { Button } from "@/components/ui/button";
+import { useLocation, useNavigate } from "react-router-dom";
+import { Plus } from "lucide-react";
 
-export const SalaryPage = () => {
+export const ListSalaryPage = () => {
   const [loading, setLoading] = useState(false);
-  const [records, setRecords] = useState<Record[] | null>(null);
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+
+  const id = pathname.substring(pathname.lastIndexOf("/") + 1);
+
+  const [salaries, setSalaries] = useState<Salary[] | null>(null);
 
   const fetchData = async () => {
-    const res = await _http.get(`/api/records`);
+    const res = await _http.get(`/api/salaries/${id}`);
 
     if (res.status === 200) {
-      setRecords(res.data);
+      console.log(res.data);
     }
   };
 
@@ -37,18 +44,22 @@ export const SalaryPage = () => {
     <div className="flex-col flex">
       <div className="flex-1 space-y-4 p-4">
         <div className="flex items-center justify-between">
-          <Heading
-            title="Quản lý luơng"
-            description="Chức năng quản lý lương cán bộ"
-          />
+          <Heading title="Bảng lương" description="Danh sách bảng lương" />
+          <Button
+            variant="default"
+            size="icon"
+            onClick={() => navigate(`/dashboard/salary/${id}/create`)}
+          >
+            <Plus />
+          </Button>
         </div>
         <Separator />
       </div>
-      <div className="overflow-hidden p-4">
+      {/* <div className="overflow-hidden p-4">
         {records?.length && (
           <DataTable searchKey="code" columns={columns} data={records} />
         )}
-      </div>
+      </div> */}
     </div>
   );
 };
