@@ -1,14 +1,16 @@
 import { Heading } from "@/components/heading";
 import { Loading } from "@/components/loading";
 import { Separator } from "@/components/ui/separator";
-import { Record, Salary } from "@/types";
+import { Salary } from "@/types";
 import { useEffect, useState } from "react";
 
 import { DataTable } from "@/components/records/data-table";
 import _http from "@/utils/http";
 import { Button } from "@/components/ui/button";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Plus } from "lucide-react";
+import { BarChart2, Plus } from "lucide-react";
+
+import { columns } from "@/components/salary/list-salary/columns";
 
 export const ListSalaryPage = () => {
   const [loading, setLoading] = useState(false);
@@ -23,7 +25,7 @@ export const ListSalaryPage = () => {
     const res = await _http.get(`/api/salaries/${id}`);
 
     if (res.status === 200) {
-      console.log(res.data);
+      setSalaries(res.data);
     }
   };
 
@@ -36,6 +38,7 @@ export const ListSalaryPage = () => {
     } finally {
       setLoading(false);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (loading) return <Loading />;
@@ -55,11 +58,16 @@ export const ListSalaryPage = () => {
         </div>
         <Separator />
       </div>
-      {/* <div className="overflow-hidden p-4">
-        {records?.length && (
-          <DataTable searchKey="code" columns={columns} data={records} />
+      <div className="overflow-hidden p-4">
+        {salaries?.length ? (
+          <DataTable searchKey="status" columns={columns} data={salaries} />
+        ) : (
+          <div className="flex items-center justify-center flex-col space-y-2 h-[50vh]">
+            <BarChart2 className="w-20 h-20" />
+            <h2 className="text-xl font-bold">Chưa có dữ liệu!</h2>
+          </div>
         )}
-      </div> */}
+      </div>
     </div>
   );
 };

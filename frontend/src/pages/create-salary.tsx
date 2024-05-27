@@ -16,7 +16,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { price } from "@/utils";
+import { handlerAmount, price } from "@/utils";
 import { Button } from "@/components/ui/button";
 import toast from "react-hot-toast";
 import { Loading } from "@/components/loading";
@@ -47,19 +47,6 @@ export const CreateSalaryPage = () => {
     }
   };
 
-  const handlerAmount = (
-    base: number,
-    scale: number,
-    benefit: number,
-    work: number,
-    off: number
-  ) => {
-    if (off <= 4 && work >= 24) {
-      return base * scale + benefit;
-    } else {
-      return base * scale - (off * scale * base) / 24 + benefit;
-    }
-  };
 
   useEffect(() => {
     fetchData();

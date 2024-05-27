@@ -39,6 +39,15 @@ export type Department = {
 
 export type Salary = {
   id: string;
+  amount: number;
+  workDay: number;
+  offDay: number;
+  benefit: number;
+  base: number;
+  scale: number;
+  paymentDate: string;
+  status: boolean;
+  teacherId:string;
 };
 
 export * from ".";
